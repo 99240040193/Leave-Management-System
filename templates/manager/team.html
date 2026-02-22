@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card border-0 shadow-sm glass-card mb-4">
+    <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center mt-2">
+        <h5 class="mb-0 font-weight-bold">My Team Members</h5>
+        <a href="{{ url_for('manager.add_user') }}" class="btn btn-primary rounded-pill"><i
+                class="fas fa-user-plus me-2"></i>Add Team Member</a>
+    </div>
+    <div class="card-body">
+        <div class="row g-4">
+            {% for u in members %}
+            <div class="col-xl-4 col-md-6">
+                <div class="card border border-light shadow-sm h-100 rounded-3">
+                    <div class="card-body text-center p-4">
+                        <img src="{{ url_for('static', filename='profile_pics/' + u.profile_photo) }}" alt=""
+                            class="rounded-circle shadow-sm mb-3" style="width: 80px; height: 80px; object-fit: cover;"
+                            onerror="this.src='https://ui-avatars.com/api/?name={{ u.name | urlencode }}&background=random&size=80'">
+                        <h5 class="mb-1 font-weight-bold">{{ u.name }}</h5>
+                        <p class="text-muted mb-2">{{ u.role }} | {{ u.department or 'N/A' }}</p>
+                        <div class="mb-3">
+                            <small class="text-muted me-2"><i class="fas fa-envelope me-1"></i>{{ u.email }}</small>
+                        </div>
+                        <div class="d-flex justify-content-center mb-3">
+                            {% if u.status == 'Active' %}
+                            <span class="badge bg-success rounded-pill px-3">Active</span>
+                            {% elif u.status == 'Pending' %}
+                            <span class="badge bg-warning text-dark rounded-pill px-3">Pending Admin Approval</span>
+                            {% else %}
+                            <span class="badge bg-secondary rounded-pill px-3">Inactive</span>
+                            {% endif %}
+                        </div>
+                        <a href="{{ url_for('manager.view_user', user_id=u.id) }}"
+                            class="btn btn-sm btn-outline-primary rounded-pill px-4"><i class="fas fa-eye me-1"></i>View
+                            Profile</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center text-muted py-5">
+                <i class="fas fa-users-slash text-light mb-3" style="font-size: 3rem;"></i>
+                <p>You don't have any team members yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

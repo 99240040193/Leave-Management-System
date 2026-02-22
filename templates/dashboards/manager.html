@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row g-4 mb-4">
+    <div class="col-xl-4">
+        <div class="stat-card blue shadow-sm h-100">
+            <i class="fas fa-users"></i>
+            <h3>{{ team_members|length }}</h3>
+            <p class="mb-0">Team Members</p>
+        </div>
+    </div>
+    <div class="col-xl-4">
+        <div class="stat-card orange shadow-sm h-100">
+            <i class="fas fa-clock"></i>
+            <h3>{{ pending_leaves|length }}</h3>
+            <p class="mb-0">Pending Team Leaves</p>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm glass-card mb-4">
+    <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center mt-2">
+        <h5 class="mb-0 font-weight-bold">Pending Leave Requests</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Employee</th>
+                        <th>Type</th>
+                        <th>Dates</th>
+                        <th>Reason</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for leave in pending_leaves %}
+                    <tr>
+                        <td>{{ leave.applicant.name }}</td>
+                        <td><span class="badge bg-secondary">{{ leave.leave_type }}</span></td>
+                        <td>{{ leave.from_date }} to {{ leave.to_date }}</td>
+                        <td>{{ leave.reason }}</td>
+                        <td>
+                            <a href="{{ url_for('manager.leave_action', leave_id=leave.id, status='Approved') }}"
+                                class="btn btn-sm btn-success rounded-pill me-1"><i class="fas fa-check"></i></a>
+                            <a href="{{ url_for('manager.leave_action', leave_id=leave.id, status='Rejected') }}"
+                                class="btn btn-sm btn-danger rounded-pill"><i class="fas fa-times"></i></a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-muted">No pending leaves currently.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

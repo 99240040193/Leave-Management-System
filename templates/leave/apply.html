@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8 border-0 shadow-sm glass-card mb-4 p-4">
+        <h4 class="mb-4 font-weight-bold border-bottom pb-2">Apply for Leave</h4>
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <div class="row g-3">
+                <div class="col-md-12 mb-3">
+                    {{ form.leave_type.label(class="form-label font-weight-bold") }}
+                    {{ form.leave_type(class="form-select") }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    {{ form.from_date.label(class="form-label font-weight-bold") }}
+                    {{ form.from_date(class="form-control", type="date") }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.to_date.label(class="form-label font-weight-bold") }}
+                    {{ form.to_date(class="form-control", type="date") }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    {{ form.from_time.label(class="form-label font-weight-bold text-muted") }}
+                    {{ form.from_time(class="form-control", type="time") }}
+                    <small class="text-muted">Only required for short permissions.</small>
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.to_time.label(class="form-label font-weight-bold text-muted") }}
+                    {{ form.to_time(class="form-control", type="time") }}
+                    <small class="text-muted">Only required for short permissions.</small>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    {{ form.reason.label(class="form-label font-weight-bold") }}
+                    {{ form.reason(class="form-control", rows="4", placeholder="Explain your reason clearly...") }}
+                </div>
+
+                <div class="col-md-12 mb-4">
+                    {{ form.attachment.label(class="form-label font-weight-bold") }}
+                    {{ form.attachment(class="form-control") }}
+                </div>
+
+                <div class="col-12 text-end">
+                    <a href="{{ url_for('student.dashboard') }}" class="btn btn-light me-2 rounded-pill px-4">Cancel</a>
+                    {{ form.submit(class="btn btn-primary rounded-pill px-5") }}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

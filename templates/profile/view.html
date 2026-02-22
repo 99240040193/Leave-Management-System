@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-4 mb-4">
+        <div class="card glass-card border-0 shadow-sm text-center pt-4 pb-3">
+            <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_photo) }}" alt="Profile"
+                class="rounded-circle shadow-sm mx-auto mb-3" style="width: 120px; height: 120px; object-fit: cover;"
+                onerror="this.src='https://ui-avatars.com/api/?name={{ current_user.name | urlencode }}&background=random&size=120'">
+            <h5 class="mb-1 font-weight-bold">{{ current_user.name }}</h5>
+            <p class="text-muted mb-3">{{ current_user.role }} | {{ current_user.department or 'General' }}</p>
+            <div class="d-flex justify-content-center px-4">
+                <span class="badge bg-primary rounded-pill mx-1">{{ current_user.status }}</span>
+                {% if current_user.stream %}<span class="badge bg-info rounded-pill mx-1">{{ current_user.stream
+                    }}</span>{% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card glass-card border-0 shadow-sm p-4">
+            <h5 class="mb-4 font-weight-bold border-bottom pb-2">Update Profile Details</h5>
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+
+                <div class="row g-3">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-muted">Email (Read Only)</label>
+                        <input type="email" class="form-control bg-light" value="{{ current_user.email }}" readonly>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form.phone.label(class="form-label font-weight-bold") }}
+                        {{ form.phone(class="form-control") }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.gender.label(class="form-label font-weight-bold") }}
+                        {{ form.gender(class="form-select") }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form.dob.label(class="form-label font-weight-bold") }}
+                        {{ form.dob(class="form-control", type="date") }}
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        {{ form.address.label(class="form-label font-weight-bold") }}
+                        {{ form.address(class="form-control", rows="2") }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.emergency_contact.label(class="form-label font-weight-bold text-danger") }}
+                        {{ form.emergency_contact(class="form-control") }}
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        {{ form.profile_photo.label(class="form-label font-weight-bold") }}
+                        {{ form.profile_photo(class="form-control") }}
+                    </div>
+
+                    <div class="col-12 text-end">
+                        {{ form.submit(class="btn btn-primary rounded-pill px-4") }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

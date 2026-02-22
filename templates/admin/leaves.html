@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card border-0 shadow-sm glass-card mb-4">
+    <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center mt-2">
+        <h5 class="mb-0 font-weight-bold">System Wide Leaves</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Applicant</th>
+                        <th>Type & Dates</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Admin Override</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for leave in leaves %}
+                    <tr>
+                        <td>
+                            <strong>{{ leave.applicant.name }}</strong><br>
+                            <small class="text-muted">{{ leave.applicant.department }}</small>
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary mb-1">{{ leave.leave_type }}</span><br>
+                            <small>{{ leave.from_date }} to {{ leave.to_date }}</small>
+                        </td>
+                        <td><small>{{ leave.reason }}</small></td>
+                        <td>
+                            {% if leave.status == 'Approved' %}
+                            <span class="badge bg-success rounded-pill">Approved</span>
+                            {% elif leave.status == 'Pending' %}
+                            <span class="badge bg-warning text-dark rounded-pill">Pending</span>
+                            {% else %}
+                            <span class="badge bg-danger rounded-pill">Rejected</span>
+                            {% endif %}
+                            {% if leave.remarks %}
+                            <br><small class="text-danger"><i class="fas fa-exclamation-circle me-1"></i>{{
+                                leave.remarks }}</small>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{{ url_for('admin.override_leave', leave_id=leave.id, status='Approved') }}"
+                                    class="btn btn-sm btn-outline-success" title="Approve"><i
+                                        class="fas fa-check"></i></a>
+                                <a href="{{ url_for('admin.override_leave', leave_id=leave.id, status='Rejected') }}"
+                                    class="btn btn-sm btn-outline-danger" title="Reject"><i
+                                        class="fas fa-times"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-muted">No leaves found in the system.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

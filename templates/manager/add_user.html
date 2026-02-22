@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8 border-0 shadow-sm glass-card mb-4 p-4">
+        <h4 class="mb-4 font-weight-bold border-bottom pb-2">Add New Team Member</h4>
+        <div class="alert alert-info rounded-3 shadow-sm border-0 mb-4">
+            <i class="fas fa-info-circle me-2"></i> Users added here will be in <strong>Pending</strong> status until an
+            Admin activates them.
+        </div>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="row g-3">
+                <div class="col-md-6 mb-3">
+                    {{ form.name.label(class="form-label font-weight-bold") }}
+                    {{ form.name(class="form-control") }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.email.label(class="form-label font-weight-bold") }}
+                    {{ form.email(class="form-control") }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.password.label(class="form-label font-weight-bold") }}
+                    {{ form.password(class="form-control") }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.role.label(class="form-label font-weight-bold") }}
+                    {{ form.role(class="form-select") }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    {{ form.department.label(class="form-label font-weight-bold") }}
+                    {{ form.department(class="form-control") }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    {{ form.stream.label(class="form-label font-weight-bold") }}
+                    {{ form.stream(class="form-control") }}
+                </div>
+                <div class="col-md-4 mb-4">
+                    {{ form.batch.label(class="form-label font-weight-bold") }}
+                    {{ form.batch(class="form-control") }}
+                </div>
+                <div class="col-12 text-end">
+                    <a href="{{ url_for('manager.team') }}" class="btn btn-light me-2 rounded-pill px-4">Cancel</a>
+                    {{ form.submit(class="btn btn-primary rounded-pill px-5") }}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
